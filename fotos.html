@@ -122,6 +122,32 @@
     .voltar:hover {
       background: #a855f7;
     }
+
+    /* Botão único estilo video roxo redondo */
+    .btn-musica {
+      width: 60px;
+      height: 60px;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 50%;
+      color: var(--texto);
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      margin: 0 auto;
+    }
+
+    .btn-musica:hover {
+      background-color: #a855f7;
+      transform: scale(1.1);
+    }
+
   </style>
 </head>
 <body>
@@ -142,10 +168,51 @@
     <div class="foto"><img src="foto12.jpg" alt="foto12"></div>
   </div>
 
+  <!-- Música do casal (áudio local com player estilizado) -->
+  <div style="margin: 40px auto; text-align: center; z-index: 1;">
+    <h2 style="color: var(--roxo-claro); margin-bottom: 10px;">Nossa Música🎵</h2>
+
+    <audio id="player" src="ferrugem.mp3"></audio>
+
+    <button id="btnPlayPause" class="btn-musica" aria-label="Tocar música">►</button>
+  </div>
+
   <button class="voltar" onclick="window.location.href='inicio.html'">⬅️ Voltar ao Menu</button>
 
   <script>
-    // Corações caindo
+    const player = document.getElementById('player');
+    const btn = document.getElementById('btnPlayPause');
+
+    btn.addEventListener('click', () => {
+      if (player.paused) {
+        player.play();
+        btn.textContent = '❚❚'; // pause icon
+        btn.setAttribute('aria-label', 'Pausar música');
+      } else {
+        player.pause();
+        btn.textContent = '►'; // play icon
+        btn.setAttribute('aria-label', 'Tocar música');
+      }
+    });
+
+    // Se a música acabar, volta o botão para play
+    player.addEventListener('ended', () => {
+      btn.textContent = '►';
+      btn.setAttribute('aria-label', 'Tocar música');
+    });
+
+    // Opcional: se quiser que o botão reflita o estado quando o player for pausado/ativado por outras formas:
+    player.addEventListener('play', () => {
+      btn.textContent = '❚❚';
+      btn.setAttribute('aria-label', 'Pausar música');
+    });
+
+    player.addEventListener('pause', () => {
+      btn.textContent = '►';
+      btn.setAttribute('aria-label', 'Tocar música');
+    });
+
+    // Coraçãozinho caindo
     function criarCoracao() {
       const heart = document.createElement("div");
       heart.classList.add("heart");
