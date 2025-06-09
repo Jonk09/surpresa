@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogo da Memória</title>
+  <style>
+    :root {
+      --roxo1: #1e0f38;
+      --roxo2: #3a185a;
+      --texto: #fef2ff;
+      --accent: #d946ef;
+      --shadow: rgba(192, 132, 252, 0.6);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, var(--roxo1), var(--roxo2));
+      color: var(--texto);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 20px;
+      z-index: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 15px;
+      margin: 20px 0;
+      z-index: 1;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background: var(--roxo2);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px var(--shadow);
+      cursor: pointer;
+      position: relative;
+      perspective: 600px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s;
+      transform-style: preserve-3d;
+      border-radius: 15px;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+    }
+
+    .card-front {
+      background: var(--roxo2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: var(--texto);
+      user-select: none;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card-back img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 15px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .voltar {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: var(--texto);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s ease;
+      z-index: 1;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .voltar:hover {
+      background: #a855f7;
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 20px;
+      color: var(--accent);
+      animation: fall linear infinite;
+      z-index: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* NOVO: estilo da mensagem final */
+    #mensagem-final {
+      display: none; /* inicialmente escondida */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(58, 24, 90, 0.95); /* roxo escuro transparente */
+      color: #fef2ff;
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px 10px rgba(217, 70, 239, 0.7);
+      font-size: 2rem;
+      font-weight: bold;
+      z-index: 10;
+      user-select: none;
+      text-align: center;
+    }
+
+    #btn-reiniciar {
+      margin-top: 25px;
+      padding: 10px 25px;
+      font-size: 1.2rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--texto);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s ease;
+    }
+
+    #btn-reiniciar:hover {
+      background: #a855f7;
+    }
+  </style>
+</head>
+<body>
+  <h1>Joguinho Para Você</h1>
+
+  <div class="grid" id="grid">
+    <!-- Cartas serão criadas aqui via JS -->
+  </div>
+
+  <button class="voltar" onclick="window.location.href='inicio.html'">← Voltar ao menu</button>
+
+  <!-- Mensagem final com botão reiniciar -->
+  <div id="mensagem-final">
+    Parabéns meu amor, você venceu! 💜
+    <br />
+    <button id="btn-reiniciar">Reiniciar</button>
+  </div>
+
+  <script>
+    const imagens = [
+      '../img/foto1.jpg',
+      '../img/foto2.jpg',
+      '../img/foto3.jpg',
+      '../img/foto4.jpg',
+      '../img/foto5.jpg',
+      '../img/foto6.jpg',
+      '../img/foto7.jpg',
+      '../img/foto8.jpg'
+    ];
+
+    const grid = document.getElementById('grid');
+    const mensagemFinal = document.getElementById('mensagem-final');
+    const btnReiniciar = document.getElementById('btn-reiniciar');
+
+    let primeiraCarta = null;
+    let segundaCarta = null;
+    let bloqueado = false;
+    let paresEncontrados = 0;
+
+    let cartasArray = [];
+
+    function embaralhar(array) {
+      for(let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function criarCartas() {
+      grid.innerHTML = ''; // limpa o grid antes de criar
+      paresEncontrados = 0;
+      primeiraCarta = null;
+      segundaCarta = null;
+      bloqueado = false;
+
+      cartasArray = embaralhar(imagens.concat(imagens));
+
+      cartasArray.forEach((imgSrc, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.imagem = imgSrc;
+
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-front">?</div>
+            <div class="card-back"><img src="${imgSrc}" alt="Foto do casal ${index+1}"></div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          if(bloqueado) return;
+          if(card === primeiraCarta) return;
+
+          card.classList.add('flipped');
+
+          if(!primeiraCarta) {
+            primeiraCarta = card;
+            return;
+          }
+
+          segundaCarta = card;
+          bloqueado = true;
+
+          if(primeiraCarta.dataset.imagem === segundaCarta.dataset.imagem) {
+            paresEncontrados++;
+            resetarCartas();
+            if(paresEncontrados === imagens.length) {
+              mensagemFinal.style.display = 'block';
+              bloqueado = true;
+            }
+          } else {
+            setTimeout(() => {
+              primeiraCarta.classList.remove('flipped');
+              segundaCarta.classList.remove('flipped');
+              resetarCartas();
+            }, 1200);
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function resetarCartas() {
+      [primeiraCarta, segundaCarta] = [null, null];
+      bloqueado = false;
+    }
+
+    btnReiniciar.addEventListener('click', () => {
+      mensagemFinal.style.display = 'none';
+      criarCartas();
+    });
+
+    criarCartas();
+
+    // Corações caindo
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(criarCoracao, 300);
+  </script>
+</body>
+</html>

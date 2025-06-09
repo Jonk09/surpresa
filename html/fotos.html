@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nossas Memórias 💜</title>
+  <style>
+    :root {
+      --roxo1: #1e0f38;
+      --roxo2: #3a185a;
+      --texto: #fef2ff;
+      --roxo-medio: #c084fc;
+      --roxo-claro: #f3e8ff;
+      --accent: #d946ef;
+      --shadow: rgba(192, 132, 252, 0.6);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, var(--roxo1), var(--roxo2));
+      color: var(--texto);
+      margin: 0;
+      padding: 30px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+      opacity: 0.05;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      color: var(--roxo-claro);
+      font-size: 2.4em;
+      margin-bottom: 10px;
+      z-index: 1;
+    }
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 1000px;
+      z-index: 1;
+      justify-items: center;
+    }
+
+    .foto {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .foto img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .foto:hover img {
+      transform: scale(1.05);
+    }
+
+    .legenda {
+      margin-top: 8px;
+      font-size: 0.95em;
+      color: #fef2ff;
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 20px;
+      color: var(--accent);
+      animation: fall linear infinite;
+      z-index: 2;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .voltar {
+      margin: 30px auto 0;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: var(--texto);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s ease;
+      z-index: 1;
+      display: block;
+      text-align: center;
+      user-select: none;
+    }
+
+    .voltar:hover {
+      background: #a855f7;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nossos Momentos 📸</h1>
+
+  <div class="galeria">
+    <div class="foto"><img src="../img/foto1.jpg" alt="foto1"></div>
+    <div class="foto"><img src="../img/foto2.jpg" alt="foto2"></div>
+    <div class="foto"><img src="../img/foto3.jpg" alt="foto3"></div>
+    <div class="foto"><img src="../img/foto4.jpg" alt="foto4"></div>
+    <div class="foto"><img src="../img/foto5.jpg" alt="foto5"></div>
+    <div class="foto"><img src="../img/foto6.jpg" alt="foto6"></div>
+    <div class="foto"><img src="../img/foto7.jpg" alt="foto7"></div>
+    <div class="foto"><img src="../img/foto8.jpg" alt="foto8"></div>
+    <div class="foto"><img src="../img/foto9.jpg" alt="foto9"></div>
+    <div class="foto"><img src="../img/foto10.jpg" alt="foto10"></div>
+    <div class="foto"><img src="../img/foto11.jpg" alt="foto11"></div>
+    <div class="foto"><img src="../img/foto12.jpg" alt="foto12"></div>
+  </div>
+
+  <button class="voltar" onclick="window.location.href='inicio.html'">⬅️ Voltar ao Menu</button>
+
+  <script>
+    // Corações caindo
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(criarCoracao, 300);
+  </script>
+</body>
+</html>

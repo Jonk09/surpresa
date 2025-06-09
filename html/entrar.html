@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bem-vindo ao Nosso Amor 💜</title>
+  <style>
+    :root {
+      --roxo1: #1e0f38;
+      --roxo2: #3a185a;
+      --texto: #fef2ff;
+      --accent: #d946ef;
+      --shadow: rgba(192, 132, 252, 0.6);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom right, var(--roxo1), var(--roxo2));
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--texto);
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+      }
+    }
+
+    .container {
+      z-index: 1;
+      padding: 40px 30px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .botao-entrar {
+      margin-top: 25px;
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--texto);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .botao-entrar:hover {
+      background-color: #c026d3;
+      transform: scale(1.05);
+    }
+
+    /* Corações caindo */
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 20px;
+      color: #d946ef;
+      animation: fall linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vinda ao nosso cantinho</h1>
+    <p>Preparada para relembrar cada momento especial?</p>
+    <button class="botao-entrar" onclick="entrar()">Entrar</button>
+  </div>
+
+  <script>
+    function entrar() {
+      window.open("musica.html", "_blank", "width=1,height=1,top=-1000,left=-1000,noopener,noreferrer");
+      window.location.href = "inicio.html";
+    }
+
+    // Corações caindo
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(criarCoracao, 300);
+  </script>
+</body>
+</html>

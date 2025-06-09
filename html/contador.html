@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contador do Nosso Amor 💜</title>
+  <style>
+    :root {
+      --roxo1: #1e0f38;
+      --roxo2: #3a185a;
+      --texto: #fef2ff;
+      --roxo-medio: #c084fc;
+      --roxo-claro: #f3e8ff;
+      --accent: #d946ef;
+      --shadow: rgba(192, 132, 252, 0.6);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, var(--roxo1), var(--roxo2));
+      color: var(--texto);
+      margin: 0;
+      padding: 30px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+      opacity: 0.05;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      color: var(--roxo-claro);
+      font-size: 2.6em;
+      margin-bottom: 15px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    #foto-casal {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px var(--shadow);
+      margin-bottom: 30px;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    #contador {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 600px;
+      z-index: 1;
+    }
+
+    .tempo-box {
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 15px;
+      padding: 15px 20px;
+      min-width: 80px;
+      box-shadow: 0 4px 15px var(--shadow);
+      backdrop-filter: blur(6px);
+      transition: background-color 0.3s ease;
+      user-select: none;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tempo-box:hover {
+      background-color: rgba(217 70 239 / 0.3);
+    }
+
+    .numero {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      min-width: 50px;
+      text-align: center;
+      animation: pulse 0.4s ease forwards;
+    }
+
+    .label {
+      font-size: 1rem;
+      color: var(--roxo-claro);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .label span {
+      font-size: 1.1rem;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+    }
+
+    .voltar {
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.1em;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: var(--texto);
+      cursor: pointer;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: background-color 0.3s ease;
+      z-index: 1;
+      user-select: none;
+    }
+
+    .voltar:hover {
+      background: #a855f7;
+    }
+
+    /* ❤️ Corações caindo */
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 20px;
+      color: #d946ef;
+      animation: fall linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Há quanto tempo estamos juntos?</h1>
+
+  <img id="foto-casal" src="../img/foto9.jpg" alt="Foto do casal" />
+
+  <div id="contador">
+    <div class="tempo-box">
+      <div id="dias" class="numero">0</div>
+      <div class="label">Dias <span>📅</span></div>
+    </div>
+    <div class="tempo-box">
+      <div id="horas" class="numero">0</div>
+      <div class="label">Horas <span>⏰</span></div>
+    </div>
+    <div class="tempo-box">
+      <div id="minutos" class="numero">0</div>
+      <div class="label">Minutos <span>⌛</span></div>
+    </div>
+    <div class="tempo-box">
+      <div id="segundos" class="numero">0</div>
+      <div class="label">Segundos <span>💜</span></div>
+    </div>
+  </div>
+
+  <button class="voltar" onclick="window.location.href='inicio.html'">⬅️ Voltar ao Menu</button>
+
+  <script>
+    const dataInicio = new Date('2025-02-01T15:00:00');
+
+    const diasEl = document.getElementById('dias');
+    const horasEl = document.getElementById('horas');
+    const minutosEl = document.getElementById('minutos');
+    const segundosEl = document.getElementById('segundos');
+
+    function atualizarContador() {
+      const agora = new Date();
+      const diff = agora - dataInicio;
+
+      const segundos = Math.floor((diff / 1000) % 60);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      diasEl.textContent = dias;
+      horasEl.textContent = horas.toString().padStart(2, '0');
+      minutosEl.textContent = minutos.toString().padStart(2, '0');
+      segundosEl.textContent = segundos.toString().padStart(2, '0');
+
+      [diasEl, horasEl, minutosEl, segundosEl].forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = null;
+      });
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+
+    // 💜 Corações caindo
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(criarCoracao, 300);
+  </script>
+</body>
+</html>

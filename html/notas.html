@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notas de Amor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #1e0f38, #3a185a);
+      color: #1e0f38;
+      padding: 40px 60px;
+      text-align: justify;
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: text;
+      font-size: 1.2em;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      margin-bottom: 15px;
+      color: #f3e8ff;
+      user-select: none;
+      text-align: center;
+    }
+
+    .cartinha {
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+      background: #e5d0f7; /* fundo roxo claro e legível */
+      border-radius: 12px;
+      padding: 32px 40px 40px 40px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+
+      background-image: linear-gradient(to bottom, #c4b5fd 1px, transparent 32px);
+      background-size: 100% 32px;
+      background-position-y: top;
+
+      color: #1e0f38;
+      line-height: 32px;
+      white-space: pre-wrap;
+      font-weight: 600;
+    }
+
+    .voltar-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    a.voltar {
+      display: inline-block;
+      padding: 12px 28px;
+      font-size: 1.1em;
+      background: #c084fc;
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 5px 15px #d946ef;
+      transition: background 0.3s ease;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    a.voltar:hover {
+      background: #a855f7;
+    }
+
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 20px;
+      color: #d946ef;
+      animation: fall linear infinite;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Notas de Amor</h1>
+
+  <div class="cartinha">
+    A nossa história não começou com um beijo ou uma promessa, até pq eu me apaixonei mesmo antes de te beijar. Em 2024 viramos melhores amigos. Eu não entendia muito bem o que sentia por você na época... era diferente, especial, mas não tinha nome. Então deixei pra lá.
+    
+    Mas com tempo tudo ficou claro, em dezembro de 2024 a gente se beijou pela primeira vez e naquele momento tudo fez sentido. No dia 1 de fevereiro (31 de janeiro kkkkk) oficializamos aquilo que já era destino, e desde então, cada dia ao seu lado tem sido a melhor parte da minha vida.
+    
+    Hoje é o nosso primeiro Dia dos Namorados juntos, e eu só consigo agradecer por tudo que vivemos até aqui. E hj eu celebro a sorte que tenho de te ter ao meu lado. Te amo hoje, e vou amar todos os dias que ainda vêm por aí minha gatinha. 💜
+  </div>
+
+  <div class="voltar-container">
+    <a href="inicio.html" class="voltar">← Voltar ao Menu</a>
+  </div>
+
+  <script>
+    function criarCoracao() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💜";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(criarCoracao, 300);
+  </script>
+</body>
+</html>
