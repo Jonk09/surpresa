@@ -73,6 +73,7 @@
       object-fit: cover;
       border-radius: 10px;
       transition: transform 0.3s ease;
+      cursor: pointer;
     }
 
     .foto:hover img {
@@ -123,7 +124,6 @@
       background: #a855f7;
     }
 
-    /* Botão único estilo video roxo redondo */
     .btn-musica {
       width: 60px;
       height: 60px;
@@ -148,6 +148,36 @@
       transform: scale(1.1);
     }
 
+    /* Modal da imagem */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      border: 4px solid var(--roxo-medio);
+    }
+
+    .modal.active {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -168,16 +198,19 @@
     <div class="foto"><img src="foto12.jpg" alt="foto12"></div>
   </div>
 
-  <!-- Música do casal (áudio local com player estilizado) -->
+  <!-- Música do casal -->
   <div style="margin: 40px auto; text-align: center; z-index: 1;">
     <h2 style="color: var(--roxo-claro); margin-bottom: 10px;">Nossa Música🎵</h2>
-
     <audio id="player" src="ferrugem.mp3"></audio>
-
     <button id="btnPlayPause" class="btn-musica" aria-label="Tocar música">►</button>
   </div>
 
   <button class="voltar" onclick="window.location.href='inicio.html'">⬅️ Voltar ao Menu</button>
+
+  <!-- Modal da imagem -->
+  <div class="modal" id="modal">
+    <img id="modal-img" src="" alt="Foto ampliada" />
+  </div>
 
   <script>
     const player = document.getElementById('player');
@@ -186,22 +219,20 @@
     btn.addEventListener('click', () => {
       if (player.paused) {
         player.play();
-        btn.textContent = '❚❚'; // pause icon
+        btn.textContent = '❚❚';
         btn.setAttribute('aria-label', 'Pausar música');
       } else {
         player.pause();
-        btn.textContent = '►'; // play icon
+        btn.textContent = '►';
         btn.setAttribute('aria-label', 'Tocar música');
       }
     });
 
-    // Se a música acabar, volta o botão para play
     player.addEventListener('ended', () => {
       btn.textContent = '►';
       btn.setAttribute('aria-label', 'Tocar música');
     });
 
-    // Opcional: se quiser que o botão reflita o estado quando o player for pausado/ativado por outras formas:
     player.addEventListener('play', () => {
       btn.textContent = '❚❚';
       btn.setAttribute('aria-label', 'Pausar música');
@@ -212,7 +243,7 @@
       btn.setAttribute('aria-label', 'Tocar música');
     });
 
-    // Coraçãozinho caindo
+    // Corações caindo
     function criarCoracao() {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -223,6 +254,24 @@
       setTimeout(() => heart.remove(), 5000);
     }
     setInterval(criarCoracao, 300);
+
+    // Modal de imagem
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+
+    document.querySelectorAll('.foto img').forEach(img => {
+      img.addEventListener('click', () => {
+        modal.classList.add('active');
+        modalImg.src = img.src;
+      });
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target !== modalImg) {
+        modal.classList.remove('active');
+        modalImg.src = '';
+      }
+    });
   </script>
 </body>
 </html>
