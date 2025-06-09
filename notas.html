@@ -32,7 +32,7 @@
     .cartinha {
       max-width: 700px;
       margin: 0 auto 30px auto;
-      background: #e5d0f7; /* fundo roxo claro e legível */
+      background: #e5d0f7;
       border-radius: 12px;
       padding: 32px 40px 40px 40px;
       box-shadow: 0 6px 12px rgba(0,0,0,0.25);
@@ -86,6 +86,30 @@
       to {
         transform: translateY(100vh);
         opacity: 0;
+      }
+    }
+
+    /* RESPONSIVIDADE PARA CELULARES */
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 16px;
+        font-size: 1.15em;
+      }
+
+      .cartinha {
+        padding: 24px 20px 30px 20px;
+        font-size: 1.1em;
+        line-height: 30px;
+        max-width: 90vw;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      a.voltar {
+        font-size: 1em;
+        padding: 10px 20px;
       }
     }
   </style>
