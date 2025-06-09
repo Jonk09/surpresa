@@ -141,14 +141,13 @@
       }
     }
 
-    /* NOVO: estilo da mensagem final */
     #mensagem-final {
-      display: none; /* inicialmente escondida */
+      display: none;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(58, 24, 90, 0.95); /* roxo escuro transparente */
+      background: rgba(58, 24, 90, 0.95);
       color: #fef2ff;
       padding: 40px 60px;
       border-radius: 20px;
@@ -176,6 +175,25 @@
     #btn-reiniciar:hover {
       background: #a855f7;
     }
+
+    /* RESPONSIVO: telas pequenas como celular */
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: repeat(4, 70px);
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .card {
+        width: 70px;
+        height: 70px;
+      }
+
+      .card-back img {
+        width: 60px;
+        height: 60px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -187,7 +205,6 @@
 
   <button class="voltar" onclick="window.location.href='inicio.html'">← Voltar ao menu</button>
 
-  <!-- Mensagem final com botão reiniciar -->
   <div id="mensagem-final">
     Parabéns meu amor, você venceu! 💜
     <br />
@@ -226,7 +243,7 @@
     }
 
     function criarCartas() {
-      grid.innerHTML = ''; // limpa o grid antes de criar
+      grid.innerHTML = '';
       paresEncontrados = 0;
       primeiraCarta = null;
       segundaCarta = null;
